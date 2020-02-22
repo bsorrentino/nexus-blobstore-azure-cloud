@@ -23,6 +23,7 @@ import org.sonatype.nexus.common.log.DryRunPrefix
 import org.sonatype.nexus.orient.testsupport.DatabaseInstanceRule
 
 import org.junit.Rule
+import org.sonatype.nexus.repository.internal.blobstore.BlobStoreConfigurationData
 import spock.lang.Specification
 
 import static java.util.stream.Collectors.toList
@@ -39,9 +40,11 @@ class AzureBlobStoreIT
   public DatabaseInstanceRule database = DatabaseInstanceRule.inMemory("azureTest")
 
   void setup() {
-    BlobStoreConfiguration configuration = new BlobStoreConfiguration(
-        name: 'azure',
-        type: AzureBlobStore.TYPE,
+    def configuration = new BlobStoreConfigurationData()
+
+    configuration.setName('azure')
+    configuration.setType(AzureBlobStore.TYPE)
+    configuration.setAttributes(
         attributes: [
             'azure cloud storage': [
                 (AzureBlobStore.ACCOUNT_NAME_KEY)  : System.getProperty('nxrm.azure.accountName'),

@@ -1,5 +1,8 @@
 package org.sonatype.nexus.blobstore.azure.internal
 
+import org.sonatype.nexus.repository.internal.blobstore.BlobStoreConfigurationData
+import org.sonatype.nexus.repository.internal.blobstore.BlobStoreConfigurationStore
+
 import java.nio.charset.Charset
 
 import org.sonatype.nexus.blobstore.api.BlobStoreConfiguration
@@ -15,7 +18,9 @@ class SyncAzureClientIT
   private AzureClient client
 
   def setup() {
-    def configuration = new BlobStoreConfiguration(attributes: [
+
+    def configuration = new BlobStoreConfigurationData()
+    configuration.setAttributes(attributes: [
         (AzureBlobStore.CONFIG_KEY): [
             (AzureBlobStore.ACCOUNT_NAME_KEY)  : System.getProperty('nxrm.azure.accountName'),
             (AzureBlobStore.ACCOUNT_KEY_KEY)   : System.getProperty('nxrm.azure.accountKey'),
