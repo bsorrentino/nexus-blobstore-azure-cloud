@@ -5,7 +5,7 @@ import org.sonatype.nexus.repository.internal.blobstore.BlobStoreConfigurationSt
 
 import java.nio.charset.Charset
 
-import org.sonatype.nexus.blobstore.api.BlobStoreConfiguration
+import org.sonatype.nexus.repository.internal.blobstore.orient.OrientBlobStoreConfiguration
 
 import org.apache.commons.io.IOUtils
 import spock.lang.Specification
@@ -18,9 +18,7 @@ class SyncAzureClientIT
   private AzureClient client
 
   def setup() {
-
-    def configuration = new BlobStoreConfigurationData()
-    configuration.setAttributes(attributes: [
+    def configuration = new OrientBlobStoreConfiguration(attributes: [
         (AzureBlobStore.CONFIG_KEY): [
             (AzureBlobStore.ACCOUNT_NAME_KEY)  : System.getProperty('nxrm.azure.accountName'),
             (AzureBlobStore.ACCOUNT_KEY_KEY)   : System.getProperty('nxrm.azure.accountKey'),

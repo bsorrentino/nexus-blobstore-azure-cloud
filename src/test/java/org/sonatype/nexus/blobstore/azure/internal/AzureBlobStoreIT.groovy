@@ -21,6 +21,7 @@ import org.sonatype.nexus.blobstore.azure.internal.db.OrientDeletedBlobEntityAda
 import org.sonatype.nexus.blobstore.azure.internal.db.OrientDeletedBlobIndex
 import org.sonatype.nexus.common.log.DryRunPrefix
 import org.sonatype.nexus.orient.testsupport.DatabaseInstanceRule
+import org.sonatype.nexus.repository.internal.blobstore.orient.OrientBlobStoreConfiguration
 
 import org.junit.Rule
 import org.sonatype.nexus.repository.internal.blobstore.BlobStoreConfigurationData
@@ -40,11 +41,9 @@ class AzureBlobStoreIT
   public DatabaseInstanceRule database = DatabaseInstanceRule.inMemory("azureTest")
 
   void setup() {
-    def configuration = new BlobStoreConfigurationData()
-
-    configuration.setName('azure')
-    configuration.setType(AzureBlobStore.TYPE)
-    configuration.setAttributes(
+    BlobStoreConfiguration configuration = new OrientBlobStoreConfiguration(
+        name: 'azure',
+        type: AzureBlobStore.TYPE,
         attributes: [
             'azure cloud storage': [
                 (AzureBlobStore.ACCOUNT_NAME_KEY)  : System.getProperty('nxrm.azure.accountName'),
